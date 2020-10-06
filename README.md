@@ -32,7 +32,7 @@ void PID::UpdateError(double cte) {
   
   //Derivative Controller
   if(pid_previous_error == 0)
-    pid_previous_error = cte;
+    	pid_previous_error = cte;
   else
   	d_error = cte - pid_previous_error;
   pid_previous_error = cte;
