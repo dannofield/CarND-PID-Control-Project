@@ -165,6 +165,13 @@ void PID::UpdateError(double cte)
 }
 ```
 
+# Conclusion
+PID control loop makes part of the lowest layers in self-driving cars.
+This layer takes the input of where it should be and tries to move the car there as soft as possible.
+
+I think the approach I have, having different kind of coefficients is approximate at what a real world application would requiere. Some times you can afford to gracefully move the car without hard movements but on especific situation you might want to move faster.
+
+
 # References
 
 Model Predictive Control (MPC) [Vision-Based High Speed Driving with a Deep Dynamic Observer](https://arxiv.org/abs/1812.02071) by P. Drews, et. al.
