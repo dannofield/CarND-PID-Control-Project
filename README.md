@@ -9,13 +9,6 @@
 [image4]: ./images_result/PID_lowErrorAccel.png "PID lowErrorAccel"
 [image5]: ./images_result/pidProcess.png "PID Process"
 
-# References
-
-Model Predictive Control (MPC) [Vision-Based High Speed Driving with a Deep Dynamic Observer](https://arxiv.org/abs/1812.02071) by P. Drews, et. al.
-
-Reinforcement Learning-based [Reinforcement Learning and Deep Learning based Lateral Control for Autonomous Driving](https://arxiv.org/abs/1810.12778) by D. Li, et. al.
-
-[ChauffeurNet: Learning to Drive by Imitating the Best and Synthesizing the Worst](https://arxiv.org/abs/1812.03079) by M. Bansal, A. Krizhevsky and A. Ogale
 
 
 # PID
@@ -61,6 +54,10 @@ double PID::TotalError() {
 
 # PID Control for Speed
 
+I implemented the ability for the car to brake when it was going to fast and the error started to increase.
+
+This braking decision is made based on the PID result after calculating the control response (pid_result).
+
 ![alt text][image2]
 
 ```Cpp
@@ -68,14 +65,14 @@ double PID::GetRecommendedThrottle(double speed){
     if(fabs(pid_result) < 0.1 || speed < 20)
     {      
       /*if the error is small or the speed is less than 20mph...
-      		and the car was breaking: accelerate*/
+      		and the car was braking: accelerate*/
       if(pid_recommended_throttle < 0)
           pid_recommended_throttle*=-1;
     }
     else if(speed > 25)
     {      
       /*if the error is high, and the speed is more than  25mph...
-      		break if the car is still accelerating*/     
+      		brake if the car is still accelerating*/     
       if(pid_recommended_throttle > 0)
           pid_recommended_throttle*=-1;
     }  
@@ -85,7 +82,15 @@ double PID::GetRecommendedThrottle(double speed){
 
 # Fast Response PID With Different Coefficients 
 
+I tried to get creative, particularly around hyperparameter tuning/optimization. 
+
+I noticed that a good, stable algorithm would not be able to respond as fast as you would like when the speed or the error is high.
+
+So I tried to implement 3 different coefficients that the program chooses depending  on the error.
+
 ![alt text][image3]
+
+This way, I was able to achieve a greater speed and fast response when the car goes off the center but it behaves very stable when the error is small.
 
 ```Cpp
 void PID::ChangePIDCoefficients(ERROR_PID error)
@@ -129,3 +134,12 @@ void PID::UpdateError(double cte)
   //:
 }
 ```
+
+# References
+
+Model Predictive Control (MPC) [Vision-Based High Speed Driving with a Deep Dynamic Observer](https://arxiv.org/abs/1812.02071) by P. Drews, et. al.
+
+Reinforcement Learning-based [Reinforcement Learning and Deep Learning based Lateral Control for Autonomous Driving](https://arxiv.org/abs/1810.12778) by D. Li, et. al.
+
+[ChauffeurNet: Learning to Drive by Imitating the Best and Synthesizing the Worst](https://arxiv.org/abs/1812.03079) by M. Bansal, A. Krizhevsky and A. Ogale
+
