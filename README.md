@@ -77,6 +77,9 @@ double PID::TotalError() {
 ```
 
 # PID Low Error
+
+While the system is experiencing a low error it accelerates constantly with a defined throttle ```double pid_recommended_throttle = 1.0;```
+
 ![alt text][image4]
 
 # PID Control for Speed
