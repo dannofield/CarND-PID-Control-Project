@@ -65,7 +65,7 @@ double PID::TotalError() {
 
 ```Cpp
 double PID::GetRecommendedThrottle(double speed){
-	if(fabs(pid_result) < 0.1 || speed < 20)
+    if(fabs(pid_result) < 0.1 || speed < 20)
     {      
       /*if the error is small or the speed is less than 20mph...
       		and the car was breaking: accelerate*/
