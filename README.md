@@ -66,14 +66,14 @@ double PID::TotalError() {
 double PID::GetRecommendedThrottle(double speed){
 	if(fabs(pid_result) < 0.1 || speed < 20)
     {      
-      /*if the error is small or the peed less than 20mph...
+      /*if the error is small or the speed is less than 20mph...
       		and the car was breaking: accelerate*/
       if(pid_recommended_throttle < 0)
           pid_recommended_throttle*=-1;
     }
     else if(speed > 25)
     {      
-      /*if the error is high, and the speed more than  25mph...
+      /*if the error is high, and the speed is more than  25mph...
       		break if the car is still accelerating*/     
       if(pid_recommended_throttle > 0)
           pid_recommended_throttle*=-1;
