@@ -14,6 +14,33 @@
 # PID
 ![alt text][image5]
 
+### Tuning method
+
+I basically tuned all the different coefficients by trial and error. 
+Because of the dynamics of the system. I found it was a simplier method. 
+
+First I set Ki and Kd values to zero and increase proportional term (Kp) until the car reached to oscillating behavior from one side of the road to the other. 
+
+Once it is oscillating, I adjuste Ki (Integral term) so that oscillations stops, or at least less abrupt. 
+
+Finally, I adjusted D to get fast response.
+
+So the initial coefficients I chose were:
+```Cpp
+pid.Init(/*Kp_*/0.08, /*Ki_*/0.0001, /*Kd_*/0.8);
+```
+### PID control loop and Update function 
+
+Every message we get from the behavioral and sensor fusion layer I update the PID control loop to obtain the steering angle and the speed.
+
+```Cpp
+pid.UpdateError(cte);
+steer_value = pid.TotalError();
+throttle = pid.GetRecommendedThrottle(speed);
+```
+
+The control loop saves and processes this error
+
 ```Cpp
 void PID::UpdateError(double cte) {
   /**
@@ -37,7 +64,7 @@ void PID::UpdateError(double cte) {
   
 }
 ```
-
+After this, it calculates the response based on the error 
 
 ```Cpp
 double PID::TotalError() {
