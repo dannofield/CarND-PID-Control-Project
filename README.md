@@ -35,6 +35,7 @@ void PID::UpdateError(double cte) {
     	pid_previous_error = cte;
   else
   	d_error = cte - pid_previous_error;
+	
   pid_previous_error = cte;
     
   //Integral Controller 
